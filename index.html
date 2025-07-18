@@ -1,0 +1,2528 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>從量津貼與需求彈性互動教學</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#5D5CDE'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div class="container mx-auto p-4 max-w-6xl">
+        <!-- 语言切换按钮 -->
+        <div class="flex justify-end mb-4">
+            <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-1 flex">
+                <button id="langZh" class="lang-btn px-3 py-1 rounded text-sm font-medium bg-primary text-white">
+                    中文
+                </button>
+                <button id="langEn" class="lang-btn px-3 py-1 rounded text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
+                    English
+                </button>
+            </div>
+        </div>
+        
+        <div class="text-center mb-6">
+            <h1 id="mainTitle" class="text-3xl font-bold mb-2">從量津貼 VS 需求彈性、供給彈性互動教學</h1>
+        </div>
+
+        <div class="grid lg:grid-cols-5 gap-6">
+            <!-- 情境選擇 - 移到左方 -->
+            <div class="lg:col-span-1">
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <div class="space-y-4">
+                        <div>
+                            <label id="task1Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務1</span>：<span class="text-red-600 dark:text-red-400">從量津貼</span></label>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button id="unitSubsidy" class="tax-btn px-3 py-2 rounded border-2 border-gray-300 dark:border-gray-600 hover:border-primary transition-colors text-base">
+                                    <span id="unitSubsidyText">從量津貼</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label id="task2Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務2</span>：<span class="text-red-600 dark:text-red-400">需求彈性類型</span></label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="highElastic" class="elasticity-btn px-3 py-2 rounded border-2 border-gray-300 dark:border-gray-600 hover:border-primary transition-colors text-base">
+                                    <span id="highElasticText">高彈性</span>
+                                </button>
+                                <button id="lowElastic" class="elasticity-btn px-3 py-2 rounded border-2 border-gray-300 dark:border-gray-600 hover:border-primary transition-colors text-base">
+                                    <span id="lowElasticText">低彈性</span>
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div>
+                            <label id="task3Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務3</span>：<span class="text-red-600 dark:text-red-400">供給彈性類型</span></label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="highSupplyElastic" class="supply-elasticity-btn px-3 py-2 rounded border-2 border-gray-300 dark:border-gray-600 hover:border-primary transition-colors text-base">
+                                    <span id="highSupplyElasticText">高彈性</span>
+                                </button>
+                                <button id="lowSupplyElastic" class="supply-elasticity-btn px-3 py-2 rounded border-2 border-gray-300 dark:border-gray-600 hover:border-primary transition-colors text-base">
+                                    <span id="lowSupplyElasticText">低彈性</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label id="task4Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務4</span>：<span class="text-red-600 dark:text-red-400">拖拽到圖表</span></label>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button id="benefit" class="benefit-btn px-3 py-2 rounded border-2 border-green-500 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:border-green-600 transition-colors text-sm cursor-move select-none" draggable="true">
+                                    <span id="benefitText">消費者獲得津貼</span>
+                                </button>
+                                <button id="loss" class="benefit-btn px-3 py-2 rounded border-2 border-yellow-600 bg-yellow-100 dark:bg-yellow-800 text-yellow-800 dark:text-yellow-100 hover:border-yellow-700 transition-colors text-sm cursor-move select-none" draggable="true">
+                                    <span id="lossText">生產者獲得津貼</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label id="task5Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務5</span>：<span class="text-red-600 dark:text-red-400">拖拽到圖表</span></label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button id="lessThan" class="comparison-btn px-3 py-2 rounded border-2 border-blue-500 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 hover:border-blue-600 transition-colors text-base cursor-move select-none text-xl font-bold" draggable="true">
+                                    &lt;
+                                </button>
+                                <button id="greaterThan" class="comparison-btn px-3 py-2 rounded border-2 border-purple-500 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 hover:border-purple-600 transition-colors text-base cursor-move select-none text-xl font-bold" draggable="true">
+                                    &gt;
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label id="task6Label" class="block text-sm font-medium mb-2"><span class="text-red-600 dark:text-red-400">任務6</span>：<span class="text-red-600 dark:text-red-400">提交</span></label>
+                            <button id="submitBtn" class="w-full bg-red-600 text-white px-3 py-2 rounded border-2 border-red-600 hover:bg-red-700 transition-colors text-base disabled:opacity-50 disabled:cursor-not-allowed">
+                                <span id="submitBtnText">提交答案</span>
+                            </button>
+                            <div id="submitFeedback" class="hidden mt-2 p-3 rounded-lg text-sm font-medium"></div>
+                        </div>
+
+                        <div>
+                            <label id="resetLabel" class="block text-sm font-medium mb-2"><span class="text-blue-600 dark:text-blue-400">重新開始</span></label>
+                            <button id="resetBtn" class="w-full bg-gray-600 text-white px-3 py-2 rounded border-2 border-gray-600 hover:bg-gray-700 transition-colors text-base">
+                                <span id="resetBtnText">重新整理</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 圖表區域 -->
+            <div class="lg:col-span-4">
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-4">
+                    <canvas id="economicChart" width="600" height="400" class="w-full h-auto border border-gray-300 dark:border-gray-600 rounded"></canvas>
+                </div>
+                
+                <!-- 結果顯示區域 -->
+                <div id="resultsPanel" class="hidden bg-gray-50 dark:bg-gray-800 rounded-lg p-4 mt-4">
+                    <h3 class="text-lg font-semibold mb-4">分析結果</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                        <div class="bg-blue-100 dark:bg-blue-900 p-3 rounded">
+                            <div class="font-medium">價格變化</div>
+                            <div id="priceChange" class="text-lg font-bold text-blue-600 dark:text-blue-400">--</div>
+                        </div>
+                        <div class="bg-green-100 dark:bg-green-900 p-3 rounded">
+                            <div class="font-medium">需求量變化</div>
+                            <div id="quantityChange" class="text-lg font-bold text-green-600 dark:text-green-400">--</div>
+                        </div>
+                        <div class="bg-purple-100 dark:bg-purple-900 p-3 rounded">
+                            <div class="font-medium">收入變化</div>
+                            <div id="revenueChange" class="text-lg font-bold text-purple-600 dark:text-purple-400">--</div>
+                        </div>
+                    </div>
+                    <div id="explanation" class="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded text-sm"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 練習題區域 -->
+        <div class="mt-8">
+            <div id="quizSection" class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6">
+                <h2 id="quizTitle" class="text-2xl font-bold mb-6 text-center">從量津貼與彈性練習題</h2>
+                
+                <!-- 練習題解鎖提示 -->
+                <div id="quizLockMessage" class="mb-6 p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg border-l-4 border-yellow-500">
+                    <h3 id="quizLockTitle" class="text-lg font-semibold mb-2 text-yellow-800 dark:text-yellow-200">🔒 練習題尚未解鎖</h3>
+                    <div class="text-yellow-700 dark:text-yellow-300">
+                        <p id="quizLockDesc" class="mb-2">請先完成以下任務才能開始練習題：</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                            <div class="bg-yellow-50 dark:bg-yellow-800 p-3 rounded">
+                                <div id="taskGroup1" class="font-medium">任務組合1：高彈性情境</div>
+                                <div id="highElasticProgress" class="mt-1 text-xs">
+                                    ❌ 尚未完成高彈性的完整任務流程
+                                </div>
+                            </div>
+                            <div class="bg-yellow-50 dark:bg-yellow-800 p-3 rounded">
+                                <div id="taskGroup2" class="font-medium">任務組合2：低彈性情境</div>
+                                <div id="lowElasticProgress" class="mt-1 text-xs">
+                                    ❌ 尚未完成低彈性的完整任務流程
+                                </div>
+                            </div>
+                        </div>
+                        <p id="quizHint" class="mt-3 text-xs">💡 提示：每種彈性類型都需要完成任務1-6的完整流程（選擇從量津貼→選擇彈性類型→拖拽津貼標籤→拖拽比較符號→提交答案）</p>
+                    </div>
+                </div>
+                
+                <!-- 題目1 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-blue-500">
+                    <h3 id="q1Title" class="text-lg font-semibold mb-3">題目1：津貼分擔理解</h3>
+                    <p id="q1Question" class="mb-4">當消費者獲得津貼較生產者少時，意味著：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q1" value="demand_less_elastic" class="text-primary focus:ring-primary">
+                            <span>需求彈性小於供給彈性（|Ed| < |Es|）</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q1" value="demand_more_elastic" class="text-primary focus:ring-primary">
+                            <span>需求彈性大於供給彈性（|Ed| > |Es|）</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q1" value="elasticity_equal" class="text-primary focus:ring-primary">
+                            <span>需求彈性等於供給彈性（|Ed| = |Es|）</span>
+                        </label>
+                    </div>
+                    <div id="feedback1" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目2 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-green-500">
+                    <h3 id="q2Title" class="text-lg font-semibold mb-3">題目2：需求彈性與津貼分擔</h3>
+                    <p id="q2Question" class="mb-4">當商品需求彈性<strong>低於</strong>供給彈性時，從量津貼主要由誰獲得？</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q2" value="consumer_gains_more" class="text-primary focus:ring-primary">
+                            <span>消費者獲得較多津貼</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q2" value="producer_gains_more" class="text-primary focus:ring-primary">
+                            <span>生產者獲得較多津貼</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q2" value="equal_gain" class="text-primary focus:ring-primary">
+                            <span>消費者與生產者平均分享</span>
+                        </label>
+                    </div>
+                    <div id="feedback2" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目3 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-purple-500">
+                    <h3 id="q3Title" class="text-lg font-semibold mb-3">題目3：津貼分擔決定因素</h3>
+                    <p id="q3Question" class="mb-4">從量津貼的受益分擔主要取決於：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q3" value="demand_elasticity_only" class="text-primary focus:ring-primary">
+                            <span>取決於需求彈性</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q3" value="supply_elasticity_only" class="text-primary focus:ring-primary">
+                            <span>取決於供給彈性</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q3" value="elasticity_ratio" class="text-primary focus:ring-primary">
+                            <span>取決於需求彈性與供給彈性的相對大小</span>
+                        </label>
+                    </div>
+                    <div id="feedback3" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目4 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-orange-500">
+                    <h3 id="q4Title" class="text-lg font-semibold mb-3">題目4：生產者不包括津貼的總收入</h3>
+                    <p id="q4Question" class="mb-4">當政府實施從量津貼後，生產者不包括津貼的總收入會：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q4" value="increase" class="text-primary focus:ring-primary">
+                            <span>增加</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q4" value="decrease" class="text-primary focus:ring-primary">
+                            <span>減少</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q4" value="uncertain" class="text-primary focus:ring-primary">
+                            <span>不能確定</span>
+                        </label>
+                    </div>
+                    <div id="feedback4" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目5 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-pink-500">
+                    <h3 id="q5Title" class="text-lg font-semibold mb-3">題目5：生產者包括津貼的總收入</h3>
+                    <p id="q5Question" class="mb-4">當政府實施從量津貼後，生產者包括津貼的總收入會：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q5" value="increase" class="text-primary focus:ring-primary">
+                            <span>增加</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q5" value="decrease" class="text-primary focus:ring-primary">
+                            <span>減少</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q5" value="uncertain" class="text-primary focus:ring-primary">
+                            <span>不能確定</span>
+                        </label>
+                    </div>
+                    <div id="feedback5" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目6 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-indigo-500">
+                    <h3 id="q6Title" class="text-lg font-semibold mb-3">題目6：高彈性需求下生產者不包括津貼的總收入</h3>
+                    <p id="q6Question" class="mb-4">當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，生產者不包括津貼的總收入會：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q6" value="increase" class="text-primary focus:ring-primary">
+                            <span>增加</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q6" value="decrease" class="text-primary focus:ring-primary">
+                            <span>減少</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q6" value="uncertain" class="text-primary focus:ring-primary">
+                            <span>不能確定</span>
+                        </label>
+                    </div>
+                    <div id="feedback6" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目7 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-yellow-500">
+                    <h3 id="q7Title" class="text-lg font-semibold mb-3">題目7：高彈性需求下生產者包括津貼的總收入</h3>
+                    <p id="q7Question" class="mb-4">當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，生產者包括津貼的總收入會：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q7" value="increase" class="text-primary focus:ring-primary">
+                            <span>增加</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q7" value="decrease" class="text-primary focus:ring-primary">
+                            <span>減少</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q7" value="uncertain" class="text-primary focus:ring-primary">
+                            <span>不能確定</span>
+                        </label>
+                    </div>
+                    <div id="feedback7" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目8 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-teal-500">
+                    <h3 id="q8Title" class="text-lg font-semibold mb-3">題目8：高彈性需求下消費者總支出</h3>
+                    <p id="q8Question" class="mb-4">當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，消費者總支出會：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q8" value="increase" class="text-primary focus:ring-primary">
+                            <span>增加</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q8" value="decrease" class="text-primary focus:ring-primary">
+                            <span>減少</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q8" value="uncertain" class="text-primary focus:ring-primary">
+                            <span>不能確定</span>
+                        </label>
+                    </div>
+                    <div id="feedback8" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 題目9 -->
+                <div class="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border-l-4 border-red-500">
+                    <h3 id="q9Title" class="text-lg font-semibold mb-3">題目9：高彈性需求下津貼分擔</h3>
+                    <p id="q9Question" class="mb-4">當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，消費者和生產者津貼獲得比例：</p>
+                    <div class="space-y-2">
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q9" value="consumer_gains_more" class="text-primary focus:ring-primary">
+                            <span>消費者獲得較多津貼</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q9" value="producer_gains_more" class="text-primary focus:ring-primary">
+                            <span>生產者獲得較多津貼</span>
+                        </label>
+                        <label class="flex items-center space-x-3 cursor-pointer">
+                            <input type="radio" name="q9" value="uncertain_ratio" class="text-primary focus:ring-primary">
+                            <span>不能確定雙方獲得比例</span>
+                        </label>
+                    </div>
+                    <div id="feedback9" class="hidden mt-3 p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <!-- 總分顯示 -->
+                <div class="mt-6 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg text-center">
+                    <div id="totalScore" class="text-lg font-semibold text-blue-800 dark:text-blue-200">
+                        完成所有題目後將顯示總分
+                    </div>
+                    <button id="resetQuiz" class="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors">
+                        <span id="resetQuizBtn">重新作答</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 深色模式支援
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            if (event.matches) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        });
+
+        class ElasticitySimulator {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.width = this.canvas.width;
+                this.height = this.canvas.height;
+                
+                // 圖表參數
+                this.margin = { top: 20, right: 40, bottom: 60, left: 60 };
+                this.chartWidth = this.width - this.margin.left - this.margin.right;
+                this.chartHeight = this.height - this.margin.top - this.margin.bottom;
+                
+                // 狀態
+                this.selectedUnitTax = false; // 是否選擇從量津貼
+                this.selectedElasticity = null; // 'high' or 'low'
+                this.selectedSupplyElasticity = null; // 'high' or 'low'
+                this.selectedBenefit = null; // 'benefit' or 'loss'
+                this.prediction = null; // 'up', 'same', 'down'
+                this.isDragging = false;
+                this.dragPoint = null;
+                this.hasModifiedDemandLine = false; // 跟踪是否已修改需求線
+                
+                // 完成追踪狀態
+                this.completedTasks = {
+                    high: false,  // 是否完成過高彈性的完整任務流程
+                    low: false    // 是否完成過低彈性的完整任務流程
+                };
+                
+                // 提示框狀態
+                this.showHint = false;
+                this.hintOpacity = 1;
+                this.hintInterval = null;
+                
+                // 經濟參數
+                this.basePrice = 50;
+                this.baseQuantity = 40;
+                this.priceChangePercent = 0.2; // 20%
+                this.demandSlope = -1.0; // 初始45度需求線斜率
+                this.demandIntercept = 90; // 需求線截距
+                
+                // 供給線參數
+                this.supplySlope = 1.0; // 正斜率，向上傾斜
+                this.supplyIntercept = 10; // 供給線截距（S1）
+                this.originalSupplyIntercept = 10; // 保存原始供給線截距
+                this.unitTaxAmount = 30; // 從量津貼額度 - 增加到30使區域更明顯
+                
+                // 均衡點參數
+                this.equilibriumP1 = null; // 原始均衡價格
+                this.equilibriumQ1 = null; // 原始均衡數量
+                this.equilibriumP2 = null; // 新均衡價格（津貼後）
+                this.equilibriumQ2 = null; // 新均衡數量（津貼後）
+                
+                this.scenarios = {
+                    high: { elasticity: -2.0, demandSlope: -0.8 }, // 高彈性
+                    low: { elasticity: -0.4, demandSlope: -3.0 }   // 低彈性
+                };
+                
+                // 拖拽狀態
+                this.isDraggedToCanvas = false;
+                this.draggedType = null;
+                this.draggedPositions = {}; // 存儲多個拖拽位置 {benefit: {x, y}, loss: {x, y}}
+                
+                // 任務5狀態
+                this.selectedComparison = null; // '<' or '>'
+                this.isComparisonDraggedToCanvas = false;
+                
+                this.init();
+            }
+            
+            init() {
+                this.drawChart();
+                this.setupEventListeners();
+                this.setupCanvasEvents();
+                this.setupDragAndDrop();
+                this.updateTaskAvailability(); // 初始化任务可用性
+            }
+            
+            setupEventListeners() {
+                // 從量津貼按鈕
+                document.getElementById('unitSubsidy').addEventListener('click', () => {
+                    this.selectUnitSubsidy();
+                });
+                
+                // 彈性選擇按鈕
+                document.getElementById('highElastic').addEventListener('click', () => {
+                    this.selectElasticity('high');
+                });
+                
+                document.getElementById('lowElastic').addEventListener('click', () => {
+                    this.selectElasticity('low');
+                });
+                
+                // 供給彈性選擇按鈕
+                document.getElementById('highSupplyElastic').addEventListener('click', () => {
+                    this.selectSupplyElasticity('high');
+                });
+                
+                document.getElementById('lowSupplyElastic').addEventListener('click', () => {
+                    this.selectSupplyElasticity('low');
+                });
+                
+                // 提交按鈕
+                document.getElementById('submitBtn').addEventListener('click', () => {
+                    this.submitAnswer();
+                });
+                
+                // 重新整理按鈕
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.resetAll();
+                });
+            }
+            
+            setupDragAndDrop() {
+                // 拖拽事件監聽器
+                document.getElementById('benefit').addEventListener('dragstart', (e) => {
+                    this.handleDragStart(e, 'benefit');
+                });
+                
+                document.getElementById('loss').addEventListener('dragstart', (e) => {
+                    this.handleDragStart(e, 'loss');
+                });
+                
+                // 任務5比較符號拖拽
+                document.getElementById('lessThan').addEventListener('dragstart', (e) => {
+                    this.handleDragStart(e, 'lessThan');
+                });
+                
+                document.getElementById('greaterThan').addEventListener('dragstart', (e) => {
+                    this.handleDragStart(e, 'greaterThan');
+                });
+                
+                // Canvas作為拖拽目標
+                this.canvas.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    this.canvas.style.cursor = 'copy';
+                });
+                
+                this.canvas.addEventListener('dragleave', (e) => {
+                    this.canvas.style.cursor = 'default';
+                });
+                
+                this.canvas.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.canvas.style.cursor = 'default';
+                    this.handleDrop(e);
+                });
+            }
+            
+            handleDragStart(e, type) {
+                this.draggedType = type;
+                // 設置拖拽數據
+                e.dataTransfer.setData('text/plain', type);
+                e.dataTransfer.effectAllowed = 'copy';
+                
+                // 添加拖拽時的視覺效果
+                setTimeout(() => {
+                    if (e.target && e.target.style) {
+                        e.target.style.opacity = '0.5';
+                    }
+                }, 0);
+            }
+            
+            handleDrop(e) {
+                const draggedType = e.dataTransfer.getData('text/plain');
+                
+                // 恢復拖拽元素的透明度
+                const draggedElement = document.getElementById(draggedType);
+                if (draggedElement && draggedElement.style) {
+                    draggedElement.style.opacity = '1';
+                }
+                
+                // 獲取拖拽位置
+                const rect = this.canvas.getBoundingClientRect();
+                const scaleX = this.canvas.width / rect.width;
+                const scaleY = this.canvas.height / rect.height;
+                const canvasX = (e.clientX - rect.left) * scaleX;
+                const canvasY = (e.clientY - rect.top) * scaleY;
+                
+                // 任務5：比較符號拖拽處理
+                if (draggedType === 'lessThan' || draggedType === 'greaterThan') {
+                    // 檢查是否放在比較框區域
+                    const comparisonZone = this.getComparisonDropZone(canvasX, canvasY);
+                    
+                    if (comparisonZone) {
+                        // 成功放置在比較框中
+                        this.selectedComparison = draggedType === 'lessThan' ? '<' : '>';
+                        this.isComparisonDraggedToCanvas = true;
+                        
+                        // 更新任務可用性
+                        this.updateTaskAvailability();
+                        
+                        // 重新繪製圖表以顯示比較符號
+                        this.drawChart();
+                        
+                        // 提供放置確認反饋
+                        this.showComparisonDropConfirmation(this.selectedComparison);
+                    } else {
+                        // 放錯地方
+                        this.showComparisonDropError();
+                    }
+                    return;
+                }
+                
+                // 任務4：津貼拖拽處理
+                if (draggedType === 'benefit' || draggedType === 'loss') {
+                    // 檢查是否放在津貼區域
+                    const dropZone = this.getDropZone(canvasX, canvasY);
+                    
+                    if (dropZone) {
+                        // 成功放置在有效區域
+                        this.selectedBenefit = draggedType;
+                        this.isDraggedToCanvas = true;
+                        
+                        // 記錄學生實際選擇的區域
+                        this.studentDropZone = dropZone;
+                        
+                        // 更新視覺反饋
+                        this.updateDraggedVisualization(canvasX, canvasY, draggedType, dropZone);
+                        
+                        // 更新任務可用性
+                        this.updateTaskAvailability();
+                        
+                        // 提供放置確認反饋
+                        this.showDropConfirmation(draggedType, dropZone);
+                    } else {
+                        // 完全放錯地方
+                        this.showDropError();
+                    }
+                }
+            }
+            
+            getDropZone(canvasX, canvasY) {
+                // 檢查基本條件
+                if (!this.selectedUnitTax || !this.selectedSupplyElasticity) {
+                    return null;
+                }
+                
+                // 確保均衡點已計算
+                if (!this.equilibriumP1 || !this.equilibriumQ1 || !this.equilibriumP2 || !this.equilibriumQ2) {
+                    this.calculateOriginalEquilibrium();
+                    this.calculateNewEquilibrium();
+                }
+                
+                // 使用與顯示位置相同的計算邏輯
+                const consumerSubsidyArea = this.calculateConsumerSubsidyArea();
+                const producerSubsidyArea = this.calculateProducerSubsidyArea();
+                
+                // 檢查是否在消費者津貼面積：(P1-P2)*Q2
+                if (canvasX >= consumerSubsidyArea.x && canvasX <= consumerSubsidyArea.x + consumerSubsidyArea.width && 
+                    canvasY >= consumerSubsidyArea.y && canvasY <= consumerSubsidyArea.y + consumerSubsidyArea.height) {
+                    return 'CONSUMER_SUBSIDY_AREA';
+                }
+                
+                // 檢查是否在生產者津貼面積：(P3-P1)*Q2
+                if (canvasX >= producerSubsidyArea.x && canvasX <= producerSubsidyArea.x + producerSubsidyArea.width && 
+                    canvasY >= producerSubsidyArea.y && canvasY <= producerSubsidyArea.y + producerSubsidyArea.height) {
+                    return 'PRODUCER_SUBSIDY_AREA';
+                }
+                
+                return null;
+            }
+            
+            updateDraggedVisualization(x, y, type, dropZone) {
+                // 儲存拖拽位置、類型和學生實際選擇的區域
+                this.draggedPositions[type] = { x, y, zone: dropZone };
+                
+                // 重新繪製圖表（會自動包含所有拖拽標籤）
+                this.drawChart();
+            }
+            
+            drawDraggedLabels() {
+                // 繪製所有已拖拽的標籤
+                for (const [type, position] of Object.entries(this.draggedPositions)) {
+                    if (position) {
+                        this.drawSingleDraggedLabel(position.x, position.y, type);
+                    }
+                }
+            }
+            
+            drawSingleDraggedLabel(x, y, type) {
+                this.ctx.save();
+                
+                // 計算對應區域的精確位置和尺寸
+                const areaInfo = this.calculateAreaPosition(type);
+                if (!areaInfo) {
+                    this.ctx.restore();
+                    return;
+                }
+                
+                // 繪製答案標籤
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                const text = type === 'benefit' ? 
+                    (currentLang === 'en' ? 'Consumer Gets Subsidy' : '消費者獲得津貼') : 
+                    (currentLang === 'en' ? 'Producer Gets Subsidy' : '生產者獲得津貼');
+                const bgColor = type === 'benefit' ? '#10B981' : '#D4AF37';
+                const textColor = '#FFFFFF';
+                
+                // 使用實際計算的區域位置和尺寸
+                let rectX = areaInfo.x;
+                let rectY = areaInfo.y;
+                let rectWidth = areaInfo.width;
+                let rectHeight = areaInfo.height;
+                
+                // 設定最小尺寸
+                const minWidth = 80;
+                const minHeight = 25;
+                
+                rectWidth = Math.max(minWidth, rectWidth);
+                rectHeight = Math.max(minHeight, rectHeight);
+                
+                // 繪製背景矩形
+                this.ctx.fillStyle = bgColor;
+                this.ctx.globalAlpha = 0.8;
+                
+                this.ctx.beginPath();
+                this.roundRect(rectX, rectY, rectWidth, rectHeight, 4);
+                this.ctx.fill();
+                
+                // 繪製邊框
+                this.ctx.globalAlpha = 1;
+                this.ctx.strokeStyle = bgColor;
+                this.ctx.lineWidth = 1;
+                this.ctx.stroke();
+                
+                // 繪製文字
+                this.ctx.fillStyle = textColor;
+                this.ctx.globalAlpha = 1;
+                this.ctx.font = 'bold 10px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                
+                const textX = rectX + rectWidth / 2;
+                const textY = rectY + rectHeight / 2;
+                
+                // 根據寬度選擇適當的文字
+                let displayText = text;
+                if (rectWidth < 120) {
+                    displayText = type === 'benefit' ? '消費者津貼' : '生產者津貼';
+                }
+                if (rectWidth < 80) {
+                    displayText = type === 'benefit' ? '消費者' : '生產者';
+                }
+                
+                this.ctx.fillText(displayText, textX, textY);
+                
+                this.ctx.restore();
+            }
+            
+            calculateAreaPosition(type) {
+                if (!this.selectedUnitTax || !this.equilibriumP1 || !this.equilibriumQ1 || !this.equilibriumP2 || !this.equilibriumQ2) {
+                    return null;
+                }
+                
+                // 根據學生實際拖拽到的區域來確定位置
+                let targetZone = null;
+                if (this.draggedPositions[type] && this.draggedPositions[type].zone) {
+                    targetZone = this.draggedPositions[type].zone;
+                } else {
+                    return null;
+                }
+                
+                // 根據實際拖拽的區域計算位置
+                if (targetZone === 'CONSUMER_SUBSIDY_AREA') {
+                    const consumerSubsidyArea = this.calculateConsumerSubsidyArea();
+                    return {
+                        x: consumerSubsidyArea.x,
+                        y: consumerSubsidyArea.y,
+                        width: Math.max(consumerSubsidyArea.width, 40),
+                        height: Math.max(consumerSubsidyArea.height, 20)
+                    };
+                } else if (targetZone === 'PRODUCER_SUBSIDY_AREA') {
+                    const producerSubsidyArea = this.calculateProducerSubsidyArea();
+                    return {
+                        x: producerSubsidyArea.x,
+                        y: producerSubsidyArea.y,
+                        width: Math.max(producerSubsidyArea.width, 40),
+                        height: Math.max(producerSubsidyArea.height, 20)
+                    };
+                } else {
+                    return null;
+                }
+            }
+            
+            calculateConsumerSubsidyArea() {
+                // 從量津貼情況下：消費者獲得津貼面積 = (P1-P2)*Q2 矩形
+                const validP1 = Math.max(0, Math.min(100, this.equilibriumP1));
+                const validP2 = Math.max(0, Math.min(100, this.equilibriumP2));
+                
+                // 在從量津貼情況下，P1 > P2（價格下降）
+                if (validP1 <= validP2) {
+                    return {
+                        x: this.margin.left,
+                        y: this.toCanvasY(validP1),
+                        width: this.toCanvasX(this.equilibriumQ2) - this.margin.left,
+                        height: 0
+                    };
+                }
+                
+                // X座標：從Y軸開始到Q2垂直線
+                let consumerSubsidyX = this.margin.left;
+                let consumerSubsidyWidth = Math.max(0, this.toCanvasX(this.equilibriumQ2) - this.margin.left);
+                
+                // Y座標：從P2開始，到P1結束
+                let consumerSubsidyY = this.toCanvasY(validP1);  // 上邊界（P1）
+                let consumerSubsidyHeight = this.toCanvasY(validP2) - this.toCanvasY(validP1); // P1到P2的高度
+                
+                return {
+                    x: consumerSubsidyX,
+                    y: consumerSubsidyY,
+                    width: consumerSubsidyWidth,
+                    height: Math.max(0, consumerSubsidyHeight)
+                };
+            }
+            
+            calculateProducerSubsidyArea() {
+                // 從量津貼情況下：生產者獲得津貼面積 = (P3-P1)*Q2 矩形
+                const equilibriumP3 = this.originalSupplyIntercept + this.supplySlope * this.equilibriumQ2;
+                
+                const validP3 = Math.max(0, Math.min(100, equilibriumP3));
+                const validP1 = Math.max(0, Math.min(100, this.equilibriumP1));
+                
+                if (validP3 <= validP1) {
+                    return {
+                        x: this.margin.left,
+                        y: this.toCanvasY(validP1) - 10,
+                        width: Math.max(0, this.toCanvasX(this.equilibriumQ2) - this.margin.left),
+                        height: 10
+                    };
+                }
+                
+                const producerSubsidyX = this.margin.left;
+                const producerSubsidyWidth = Math.max(0, this.toCanvasX(this.equilibriumQ2) - this.margin.left);
+                
+                const producerSubsidyY = this.toCanvasY(validP3);
+                const producerSubsidyHeight = this.toCanvasY(validP1) - this.toCanvasY(validP3);
+                
+                return {
+                    x: producerSubsidyX,
+                    y: producerSubsidyY,
+                    width: producerSubsidyWidth,
+                    height: Math.max(0, producerSubsidyHeight)
+                };
+            }
+            
+            showDropConfirmation(type, zone) {
+                this.ctx.save();
+                
+                const typeText = type === 'benefit' ? '消費者獲得津貼' : '生產者獲得津貼';
+                
+                let zoneText = '';
+                switch(zone) {
+                    case 'CONSUMER_SUBSIDY_AREA':
+                        zoneText = '消費者津貼區域 (P1-P2)×Q2';
+                        break;
+                    case 'PRODUCER_SUBSIDY_AREA':
+                        zoneText = '生產者津貼區域 (P3-P1)×Q2';
+                        break;
+                    default:
+                        zoneText = '津貼分享面積';
+                }
+                
+                const message = `已放置：${typeText} → ${zoneText}`;
+                const bgColor = '#3B82F6';
+                
+                const boxX = this.width / 2 - 150;
+                const boxY = 10;
+                const boxWidth = 300;
+                const boxHeight = 30;
+                
+                this.ctx.fillStyle = bgColor;
+                this.ctx.beginPath();
+                this.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                this.ctx.fill();
+                
+                this.ctx.fillStyle = '#FFFFFF';
+                this.ctx.font = 'bold 12px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(message, this.width / 2, boxY + boxHeight / 2);
+                
+                this.ctx.restore();
+                
+                setTimeout(() => {
+                    this.drawChart();
+                }, 2000);
+            }
+            
+            showDropError() {
+                this.ctx.save();
+                
+                const message = '請拖拽到津貼分享面積：(P1-P2)×Q2 或 (P3-P1)×Q2';
+                const boxX = this.width / 2 - 140;
+                const boxY = 10;
+                const boxWidth = 280;
+                const boxHeight = 30;
+                
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.beginPath();
+                this.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                this.ctx.fill();
+                
+                this.ctx.fillStyle = '#FFFFFF';
+                this.ctx.font = 'bold 10px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(message, this.width / 2, boxY + boxHeight / 2);
+                
+                this.ctx.restore();
+                
+                setTimeout(() => {
+                    this.drawChart();
+                }, 2000);
+            }
+            
+            selectUnitSubsidy() {
+                this.selectedUnitTax = true;
+                this.updateButtonStates('.tax-btn', 0);
+                
+                // 計算原始均衡點（S1與D的交點）
+                this.calculateOriginalEquilibrium();
+                
+                // 從量津貼使供給線向下移動（S1 → S2）
+                this.supplyIntercept = this.originalSupplyIntercept - this.unitTaxAmount;
+                
+                // 計算新均衡點（S2與D的交點）
+                this.calculateNewEquilibrium();
+                
+                this.updateTaskAvailability();
+                this.drawChart();
+            }
+            
+            calculateOriginalEquilibrium() {
+                const denominator = this.supplySlope - this.demandSlope;
+                if (Math.abs(denominator) < 0.001) {
+                    this.equilibriumQ1 = this.baseQuantity;
+                    this.equilibriumP1 = this.basePrice;
+                } else {
+                    this.equilibriumQ1 = (this.demandIntercept - this.originalSupplyIntercept) / denominator;
+                    this.equilibriumP1 = this.originalSupplyIntercept + this.supplySlope * this.equilibriumQ1;
+                    
+                    this.equilibriumQ1 = Math.max(0, Math.min(80, this.equilibriumQ1));
+                    this.equilibriumP1 = Math.max(0, Math.min(100, this.equilibriumP1));
+                }
+            }
+            
+            calculateNewEquilibrium() {
+                const denominator = this.supplySlope - this.demandSlope;
+                if (Math.abs(denominator) < 0.001) {
+                    this.equilibriumQ2 = this.baseQuantity * 1.2;
+                    this.equilibriumP2 = this.basePrice * 0.8;
+                } else {
+                    this.equilibriumQ2 = (this.demandIntercept - this.supplyIntercept) / denominator;
+                    this.equilibriumP2 = this.supplyIntercept + this.supplySlope * this.equilibriumQ2;
+                    
+                    this.equilibriumQ2 = Math.max(0, Math.min(80, this.equilibriumQ2));
+                    this.equilibriumP2 = Math.max(0, Math.min(100, this.equilibriumP2));
+                }
+            }
+            
+            selectElasticity(type) {
+                if (!this.selectedUnitTax) {
+                    return;
+                }
+                
+                this.selectedElasticity = type;
+                this.updateButtonStates('.elasticity-btn', type === 'high' ? 0 : 1);
+                
+                // 根據彈性類型自動調整需求線斜率
+                if (type === 'high') {
+                    // 高彈性：較平緩的需求線（斜率小於-1）
+                    this.demandSlope = -0.8;
+                } else {
+                    // 低彈性：較陡峭的需求線（斜率大於-1）
+                    this.demandSlope = -3.0;
+                }
+                
+                // 重新計算截距以保持需求線通過基準點
+                this.demandIntercept = this.basePrice - this.demandSlope * this.baseQuantity;
+                
+                // 重新計算均衡點（如果已選擇從量津貼）
+                if (this.selectedUnitTax) {
+                    this.calculateOriginalEquilibrium();
+                    this.calculateNewEquilibrium();
+                }
+                
+                // 重置拖拽相關狀態
+                this.draggedPositions = {};
+                this.isDraggedToCanvas = false;
+                this.selectedBenefit = null;
+                
+                // 更新任務可用性
+                this.updateTaskAvailability();
+                this.drawChart();
+            }
+            
+            selectSupplyElasticity(type) {
+                if (!this.selectedUnitTax || !this.selectedElasticity) {
+                    return;
+                }
+                
+                this.selectedSupplyElasticity = type;
+                this.updateButtonStates('.supply-elasticity-btn', type === 'high' ? 0 : 1);
+                
+                // 根據供給彈性類型調整供給線斜率
+                if (type === 'high') {
+                    this.supplySlope = 0.6; // 高彈性：較平緩的斜率
+                } else {
+                    this.supplySlope = 2.0; // 低彈性：更陡峭的斜率
+                }
+                
+                // 重新計算均衡點
+                if (this.selectedUnitTax) {
+                    this.calculateOriginalEquilibrium();
+                    this.calculateNewEquilibrium();
+                }
+                
+                // 清除已有的拖拽標籤
+                this.draggedPositions = {};
+                this.isDraggedToCanvas = false;
+                this.selectedBenefit = null;
+                
+                this.updateTaskAvailability();
+                this.drawChart();
+            }
+            
+            updateButtonStates(selector, activeIndex) {
+                const buttons = document.querySelectorAll(selector);
+                buttons.forEach((btn, index) => {
+                    btn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                    btn.classList.add('border-gray-300', 'dark:border-gray-600');
+                    
+                    if (index === activeIndex) {
+                        btn.classList.remove('border-gray-300', 'dark:border-gray-600');
+                        btn.classList.add('border-primary', 'bg-primary', 'text-white');
+                    }
+                });
+            }
+            
+            updateTaskAvailability() {
+                // 任務2（需求彈性類型）按鈕狀態控制
+                const elasticityButtons = document.querySelectorAll('.elasticity-btn');
+                elasticityButtons.forEach(btn => {
+                    if (this.selectedUnitTax) {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        btn.classList.add('hover:border-primary');
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add('opacity-50', 'cursor-not-allowed');
+                        btn.classList.remove('hover:border-primary');
+                    }
+                });
+                
+                // 任務3（供給彈性類型）按鈕狀態控制
+                const supplyElasticityButtons = document.querySelectorAll('.supply-elasticity-btn');
+                supplyElasticityButtons.forEach(btn => {
+                    if (this.selectedUnitTax && this.selectedElasticity) {
+                        btn.disabled = false;
+                        btn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        btn.classList.add('hover:border-primary');
+                    } else {
+                        btn.disabled = true;
+                        btn.classList.add('opacity-50', 'cursor-not-allowed');
+                        btn.classList.remove('hover:border-primary');
+                    }
+                });
+                
+                // 任務4拖拽按鈕狀態控制
+                const benefitButtons = document.querySelectorAll('.benefit-btn');
+                benefitButtons.forEach(btn => {
+                    if (this.selectedUnitTax && this.selectedElasticity && this.selectedSupplyElasticity) {
+                        btn.style.pointerEvents = 'auto';
+                        btn.classList.remove('opacity-50');
+                        btn.setAttribute('draggable', 'true');
+                    } else {
+                        btn.style.pointerEvents = 'none';
+                        btn.classList.add('opacity-50');
+                        btn.setAttribute('draggable', 'false');
+                    }
+                });
+                
+                // 任務5比較符號拖拽按鈕狀態控制
+                const comparisonButtons = document.querySelectorAll('.comparison-btn');
+                comparisonButtons.forEach(btn => {
+                    if (this.selectedUnitTax && this.selectedElasticity && this.selectedSupplyElasticity && this.isDraggedToCanvas) {
+                        btn.style.pointerEvents = 'auto';
+                        btn.classList.remove('opacity-50');
+                        btn.setAttribute('draggable', 'true');
+                    } else {
+                        btn.style.pointerEvents = 'none';
+                        btn.classList.add('opacity-50');
+                        btn.setAttribute('draggable', 'false');
+                    }
+                });
+            }
+            
+            drawComparisonBox() {
+                const isDark = document.documentElement.classList.contains('dark');
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                
+                // 根据语言调整框的宽度和文字
+                const boxWidth = currentLang === 'en' ? 200 : 130;
+                const boxHeight = 32;
+                const gainText = currentLang === 'en' ? 'Consumer' : '消費者津貼';
+                const lossText = currentLang === 'en' ? 'Producer' : '生產者津貼';
+                
+                // 定位在圖表右上方
+                let boxX = this.width - this.margin.right - boxWidth - 10;
+                let boxY = this.margin.top + 10;
+                
+                this.ctx.save();
+                
+                // 繪製背景框
+                this.ctx.fillStyle = isDark ? 'rgba(55, 65, 81, 0.95)' : 'rgba(248, 250, 252, 0.95)';
+                this.ctx.strokeStyle = '#6B7280';
+                this.ctx.lineWidth = 2;
+                
+                this.ctx.beginPath();
+                this.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                this.ctx.fill();
+                this.ctx.stroke();
+                
+                // 繪製文字
+                this.ctx.fillStyle = isDark ? '#F3F4F6' : '#374151';
+                this.ctx.font = currentLang === 'en' ? 'bold 8px sans-serif' : 'bold 9px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                
+                const centerY = boxY + boxHeight / 2;
+                
+                const leftWidth = boxWidth * 0.42;
+                const centerWidth = boxWidth * 0.16;
+                const rightWidth = boxWidth * 0.42;
+                
+                // 左側文字
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.fillText(gainText, boxX + leftWidth / 2, centerY);
+                
+                // 中間比較符號
+                const symbolX = boxX + leftWidth + centerWidth / 2;
+                if (this.selectedComparison) {
+                    this.ctx.fillStyle = '#EF4444';
+                    this.ctx.font = 'bold 13px sans-serif';
+                    this.ctx.fillText(this.selectedComparison, symbolX, centerY);
+                } else if (this.isDraggedToCanvas && !this.selectedComparison) {
+                    this.drawFlashingHint(symbolX, centerY);
+                }
+                
+                // 右側文字
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.font = 'bold 9px sans-serif';
+                this.ctx.fillText(lossText, boxX + leftWidth + centerWidth + rightWidth / 2, centerY);
+                
+                this.ctx.restore();
+            }
+            
+            getComparisonDropZone(canvasX, canvasY) {
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                const boxWidth = currentLang === 'en' ? 200 : 130;
+                const boxHeight = 32;
+                
+                let boxX = this.width - this.margin.right - boxWidth - 10;
+                let boxY = this.margin.top + 10;
+                
+                // 檢查是否在比較框區域內
+                if (canvasX >= boxX && canvasX <= boxX + boxWidth && 
+                    canvasY >= boxY && canvasY <= boxY + boxHeight) {
+                    return 'comparison';
+                }
+                
+                return null;
+            }
+            
+            showComparisonDropConfirmation(symbol) {
+                this.ctx.save();
+                
+                const message = `已放置比較符號：${symbol}`;
+                const bgColor = '#10B981';
+                
+                const boxX = this.width / 2 - 80;
+                const boxY = this.margin.top + 60;
+                const boxWidth = 160;
+                const boxHeight = 30;
+                
+                this.ctx.fillStyle = bgColor;
+                this.ctx.beginPath();
+                this.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                this.ctx.fill();
+                
+                this.ctx.fillStyle = '#FFFFFF';
+                this.ctx.font = 'bold 12px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(message, this.width / 2, boxY + boxHeight / 2);
+                
+                this.ctx.restore();
+                
+                setTimeout(() => {
+                    this.drawChart();
+                }, 2000);
+            }
+            
+            showComparisonDropError() {
+                this.ctx.save();
+                
+                const message = '請拖拽到圖表右上方的比較框中';
+                const boxX = this.width / 2 - 120;
+                const boxY = this.margin.top + 60;
+                const boxWidth = 240;
+                const boxHeight = 30;
+                
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.beginPath();
+                this.roundRect(boxX, boxY, boxWidth, boxHeight, 8);
+                this.ctx.fill();
+                
+                this.ctx.fillStyle = '#FFFFFF';
+                this.ctx.font = 'bold 11px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(message, this.width / 2, boxY + boxHeight / 2);
+                
+                this.ctx.restore();
+                
+                setTimeout(() => {
+                    this.drawChart();
+                }, 2000);
+            }
+            
+            drawFlashingHint(centerX, centerY) {
+                const time = Date.now() / 1000;
+                const alpha = 0.3 + 0.7 * Math.abs(Math.sin(time * 3));
+                
+                this.ctx.save();
+                this.ctx.globalAlpha = alpha;
+                
+                const hintWidth = 24;
+                const hintHeight = 20;
+                const hintX = centerX - hintWidth / 2;
+                const hintY = centerY - hintHeight / 2;
+                
+                this.ctx.fillStyle = '#FCD34D';
+                this.ctx.strokeStyle = '#F59E0B';
+                this.ctx.lineWidth = 2;
+                
+                this.ctx.beginPath();
+                this.roundRect(hintX, hintY, hintWidth, hintHeight, 4);
+                this.ctx.fill();
+                this.ctx.stroke();
+                
+                this.ctx.fillStyle = '#92400E';
+                this.ctx.font = 'bold 12px sans-serif';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText('?', centerX, centerY);
+                
+                this.ctx.restore();
+                
+                if (this.isDraggedToCanvas && !this.selectedComparison) {
+                    setTimeout(() => {
+                        this.drawChart();
+                    }, 100);
+                }
+            }
+            
+            submitAnswer() {
+                // 檢查是否已完成所有任務
+                if (!this.selectedUnitTax || !this.selectedElasticity || !this.selectedSupplyElasticity || !this.selectedBenefit || !this.isDraggedToCanvas || !this.selectedComparison || !this.isComparisonDraggedToCanvas) {
+                    const submitFeedback = document.getElementById('submitFeedback');
+                    const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                    const incompleteMessage = currentLang === 'en' ? 
+                        'Please complete all task selections and drag operations first.' : 
+                        '請先完成所有任務的選擇和拖拽操作。';
+                    
+                    submitFeedback.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'dark:bg-green-900', 'dark:bg-red-900');
+                    submitFeedback.classList.add('bg-yellow-100', 'dark:bg-yellow-900', 'text-yellow-800', 'dark:text-yellow-200');
+                    submitFeedback.textContent = incompleteMessage;
+                    return;
+                }
+                
+                // 計算P3 (生產者實際收到的價格)
+                const equilibriumP3 = this.originalSupplyIntercept + this.supplySlope * this.equilibriumQ2;
+                
+                // 計算正確的津貼分享面積
+                const consumerSubsidy = (this.equilibriumP1 - this.equilibriumP2) * this.equilibriumQ2; // (P1-P2)*Q2
+                const producerSubsidy = (equilibriumP3 - this.equilibriumP1) * this.equilibriumQ2; // (P3-P1)*Q2
+                
+                // 根據面積比較確定正確答案
+                const correctComparison = consumerSubsidy > producerSubsidy ? '>' : '<';
+                
+                // 獲取學生實際選擇
+                const studentZone = this.draggedPositions[this.selectedBenefit]?.zone;
+                const studentComparison = this.selectedComparison;
+                
+                // 判斷答案正確性
+                let isZoneCorrect = false;
+                if (this.selectedBenefit === 'benefit') {
+                    isZoneCorrect = (studentZone === 'CONSUMER_SUBSIDY_AREA');
+                } else {
+                    isZoneCorrect = (studentZone === 'PRODUCER_SUBSIDY_AREA');
+                }
+                
+                const isComparisonCorrect = studentComparison === correctComparison;
+                
+                // 顯示結果
+                const submitFeedback = document.getElementById('submitFeedback');
+                submitFeedback.classList.remove('hidden', 'bg-yellow-100', 'dark:bg-yellow-900');
+                
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                
+                if (isComparisonCorrect && isZoneCorrect) {
+                    submitFeedback.classList.remove('bg-red-100', 'dark:bg-red-900', 'text-red-800', 'dark:text-red-200');
+                    submitFeedback.classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-200');
+                    
+                    const successMessage = currentLang === 'en' ? 
+                        `Perfect! Consumer subsidy ${correctComparison} Producer subsidy.` : 
+                        `完全正確！消費者獲得津貼 ${correctComparison} 生產者獲得津貼。`;
+                    
+                    submitFeedback.textContent = successMessage;
+                    
+                    // 標記當前彈性類型已完成
+                    this.completedTasks[this.selectedElasticity] = true;
+                    this.updateQuizAvailability();
+                } else {
+                    submitFeedback.classList.add('bg-red-100', 'dark:bg-red-900', 'text-red-800', 'dark:text-red-200');
+                    
+                    let errorMessage = currentLang === 'en' ? 'Incorrect!' : '錯誤！';
+                    
+                    if (!isComparisonCorrect) {
+                        if (consumerSubsidy > producerSubsidy) {
+                            if (currentLang === 'en') {
+                                errorMessage += ' Consumer subsidy > Producer subsidy, should choose > symbol.';
+                            } else {
+                                errorMessage += ' 消費者獲得津貼 > 生產者獲得津貼，應該選擇 > 符號。';
+                            }
+                        } else {
+                            if (currentLang === 'en') {
+                                errorMessage += ' Producer subsidy > Consumer subsidy, should choose < symbol.';
+                            } else {
+                                errorMessage += ' 生產者獲得津貼 > 消費者獲得津貼，應該選擇 < 符號。';
+                            }
+                        }
+                    }
+                    
+                    if (!isZoneCorrect) {
+                        if (this.selectedBenefit === 'benefit') {
+                            if (currentLang === 'en') {
+                                errorMessage += ' "Consumer Gets Subsidy" should be placed in consumer subsidy area (P1-P2)×Q2.';
+                            } else {
+                                errorMessage += ' "消費者獲得津貼"應該放在消費者津貼區域 (P1-P2)×Q2。';
+                            }
+                        } else {
+                            if (currentLang === 'en') {
+                                errorMessage += ' "Producer Gets Subsidy" should be placed in producer subsidy area (P3-P1)×Q2.';
+                            } else {
+                                errorMessage += ' "生產者獲得津貼"應該放在生產者津貼區域 (P3-P1)×Q2。';
+                            }
+                        }
+                    }
+                    
+                    submitFeedback.textContent = errorMessage;
+                }
+            }
+            
+            resetAll() {
+                // 重置所有選擇
+                this.selectedUnitTax = false;
+                this.selectedElasticity = null;
+                this.selectedSupplyElasticity = null;
+                this.selectedBenefit = null;
+                this.prediction = null;
+                this.isDraggedToCanvas = false;
+                this.draggedPositions = {};
+                
+                this.selectedComparison = null;
+                this.isComparisonDraggedToCanvas = false;
+                
+                // 重置需求線參數
+                this.demandSlope = -1.0;
+                this.demandIntercept = 90;
+                
+                // 重置供給線參數
+                this.supplySlope = 1.0;
+                this.supplyIntercept = this.originalSupplyIntercept;
+                
+                // 重置均衡點參數
+                this.equilibriumP1 = null;
+                this.equilibriumQ1 = null;
+                this.equilibriumP2 = null;
+                this.equilibriumQ2 = null;
+                
+                // 重置所有按鈕狀態
+                document.querySelectorAll('.tax-btn, .elasticity-btn, .supply-elasticity-btn, .benefit-btn, .comparison-btn').forEach(btn => {
+                    btn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                    btn.classList.add('border-gray-300', 'dark:border-gray-600');
+                });
+                
+                // 恢復拖拽按鈕的原始樣式
+                const benefitBtn = document.getElementById('benefit');
+                const lossBtn = document.getElementById('loss');
+                benefitBtn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                benefitBtn.classList.add('border-green-500', 'bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-200');
+                lossBtn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                lossBtn.classList.add('border-yellow-600', 'bg-yellow-100', 'dark:bg-yellow-800', 'text-yellow-800', 'dark:text-yellow-100');
+                
+                // 恢復比較符號按鈕的原始樣式
+                const lessThanBtn = document.getElementById('lessThan');
+                const greaterThanBtn = document.getElementById('greaterThan');
+                lessThanBtn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                lessThanBtn.classList.add('border-blue-500', 'bg-blue-100', 'dark:bg-blue-900', 'text-blue-800', 'dark:text-blue-200');
+                greaterThanBtn.classList.remove('border-primary', 'bg-primary', 'text-white');
+                greaterThanBtn.classList.add('border-purple-500', 'bg-purple-100', 'dark:bg-purple-900', 'text-purple-800', 'dark:text-purple-200');
+                
+                // 隱藏反饋面板
+                document.getElementById('submitFeedback').classList.add('hidden');
+                
+                this.updateTaskAvailability();
+                this.drawChart();
+            }
+            
+            updateQuizAvailability() {
+                const quizLockMessage = document.getElementById('quizLockMessage');
+                const highElasticProgress = document.getElementById('highElasticProgress');
+                const lowElasticProgress = document.getElementById('lowElasticProgress');
+                
+                // 獲取當前語言的文本
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                const texts = {
+                    zh: {
+                        highElasticComplete: '✅ 已完成高彈性的完整任務流程',
+                        lowElasticComplete: '✅ 已完成低彈性的完整任務流程',
+                        highElasticIncomplete: '❌ 尚未完成高彈性的完整任務流程',
+                        lowElasticIncomplete: '❌ 尚未完成低彈性的完整任務流程'
+                    },
+                    en: {
+                        highElasticComplete: '✅ High elasticity task flow completed',
+                        lowElasticComplete: '✅ Low elasticity task flow completed',
+                        highElasticIncomplete: '❌ High elasticity task flow not completed',
+                        lowElasticIncomplete: '❌ Low elasticity task flow not completed'
+                    }
+                };
+                
+                const currentTexts = texts[currentLang];
+                
+                // 更新進度顯示
+                if (this.completedTasks.high) {
+                    highElasticProgress.innerHTML = currentTexts.highElasticComplete;
+                    highElasticProgress.className = 'mt-1 text-xs text-green-600 dark:text-green-400';
+                } else {
+                    highElasticProgress.innerHTML = currentTexts.highElasticIncomplete;
+                    highElasticProgress.className = 'mt-1 text-xs text-red-600 dark:text-red-400';
+                }
+                
+                if (this.completedTasks.low) {
+                    lowElasticProgress.innerHTML = currentTexts.lowElasticComplete;
+                    lowElasticProgress.className = 'mt-1 text-xs text-green-600 dark:text-green-400';
+                } else {
+                    lowElasticProgress.innerHTML = currentTexts.lowElasticIncomplete;
+                    lowElasticProgress.className = 'mt-1 text-xs text-red-600 dark:text-red-400';
+                }
+                
+                // 檢查是否兩種彈性類型都已完成
+                const allTasksCompleted = this.completedTasks.high && this.completedTasks.low;
+                
+                if (allTasksCompleted) {
+                    quizLockMessage.classList.add('hidden');
+                    
+                    // 啟用所有練習題
+                    const quizInputs = document.querySelectorAll('#quizSection input[type="radio"]');
+                    quizInputs.forEach(input => {
+                        input.disabled = false;
+                        input.parentElement.classList.remove('opacity-50', 'cursor-not-allowed');
+                    });
+                    
+                    const resetQuizBtn = document.getElementById('resetQuiz');
+                    resetQuizBtn.disabled = false;
+                    resetQuizBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    quizLockMessage.classList.remove('hidden');
+                    
+                    // 禁用所有練習題
+                    const quizInputs = document.querySelectorAll('#quizSection input[type="radio"]');
+                    quizInputs.forEach(input => {
+                        input.disabled = true;
+                        input.parentElement.classList.add('opacity-50', 'cursor-not-allowed');
+                    });
+                    
+                    const resetQuizBtn = document.getElementById('resetQuiz');
+                    resetQuizBtn.disabled = true;
+                    resetQuizBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            
+            // 座標轉換
+            toCanvasX(x) {
+                return this.margin.left + (x / 80) * this.chartWidth;
+            }
+            
+            toCanvasY(y) {
+                return this.margin.top + this.chartHeight - (y / 100) * this.chartHeight;
+            }
+            
+            drawChart() {
+                this.ctx.clearRect(0, 0, this.width, this.height);
+                
+                const isDark = document.documentElement.classList.contains('dark');
+                this.ctx.strokeStyle = isDark ? '#9CA3AF' : '#6B7280';
+                this.ctx.fillStyle = isDark ? '#F3F4F6' : '#374151';
+                this.ctx.font = '12px sans-serif';
+                
+                this.drawAxes();
+                this.drawDemandLine();
+                this.drawSupplyLine();
+                this.drawPriceChangeIndicators();
+                this.drawComparisonBox();
+                this.drawDemandLineHint(); // 添加需求線拖拽提示
+                
+                // 繪製所有拖拽標籤
+                this.drawDraggedLabels();
+            }
+            
+            drawDemandLineHint() {
+                // 只有在選擇彈性類型但還沒選擇供給彈性時顯示提示
+                if (this.selectedUnitTax && this.selectedElasticity && !this.selectedSupplyElasticity) {
+                    const hintX = this.width / 2;
+                    const hintY = this.margin.top + 50;
+                    
+                    // 閃爍效果
+                    const time = Date.now() / 1000;
+                    const alpha = 0.4 + 0.6 * Math.abs(Math.sin(time * 2));
+                    
+                    this.ctx.save();
+                    this.ctx.globalAlpha = alpha;
+                    
+                    // 提示框背景
+                    const hintWidth = 200;
+                    const hintHeight = 40;
+                    const hintBoxX = hintX - hintWidth / 2;
+                    const hintBoxY = hintY - hintHeight / 2;
+                    
+                    this.ctx.fillStyle = '#FEF3C7';
+                    this.ctx.strokeStyle = '#F59E0B';
+                    this.ctx.lineWidth = 2;
+                    
+                    this.ctx.beginPath();
+                    this.roundRect(hintBoxX, hintBoxY, hintWidth, hintHeight, 8);
+                    this.ctx.fill();
+                    this.ctx.stroke();
+                    
+                    // 提示文字
+                    this.ctx.fillStyle = '#92400E';
+                    this.ctx.font = 'bold 12px sans-serif';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.textBaseline = 'middle';
+                    this.ctx.fillText('💡 拖拽藍色需求線調整彈性', hintX, hintY - 5);
+                    this.ctx.font = '10px sans-serif';
+                    this.ctx.fillText('(或直接選擇彈性類型)', hintX, hintY + 8);
+                    
+                    this.ctx.restore();
+                    
+                    // 繼續閃爍
+                    setTimeout(() => {
+                        if (this.selectedUnitTax && this.selectedElasticity && !this.selectedSupplyElasticity) {
+                            this.drawChart();
+                        }
+                    }, 100);
+                }
+            }
+            
+            hideHint() {
+                // 隱藏提示的功能（當開始拖拽時調用）
+                // 這裡主要是為了停止閃爍循環
+            }
+            
+            drawAxes() {
+                this.ctx.beginPath();
+                
+                // Y軸
+                this.ctx.moveTo(this.margin.left, this.margin.top);
+                this.ctx.lineTo(this.margin.left, this.height - this.margin.bottom);
+                
+                // X軸
+                this.ctx.moveTo(this.margin.left, this.height - this.margin.bottom);
+                this.ctx.lineTo(this.width - this.margin.right, this.height - this.margin.bottom);
+                
+                this.ctx.stroke();
+                
+                // 標籤
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                const priceLabel = currentLang === 'en' ? 'Price' : '價格';
+                const quantityLabel = currentLang === 'en' ? 'Quantity' : '數量';
+                this.ctx.fillText(priceLabel, this.margin.left - 40, this.margin.top - 10);
+                this.ctx.fillText(quantityLabel, this.width - this.margin.right + 10, this.height - this.margin.bottom + 15);
+            }
+            
+            drawDemandLine() {
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#3B82F6';
+                this.ctx.lineWidth = 3;
+                
+                // Y軸交點
+                const yAxisIntercept = this.demandIntercept;
+                // X軸交點
+                let xAxisIntercept = -this.demandIntercept / this.demandSlope;
+                
+                if (!isFinite(xAxisIntercept)) {
+                    xAxisIntercept = 10000;
+                }
+                
+                // 確定繪製範圍
+                let startX = 0;
+                let startY = yAxisIntercept;
+                let endX = Math.min(80, Math.max(0, xAxisIntercept));
+                let endY = 0;
+                
+                if (startY > 100) {
+                    startY = 100;
+                    startX = Math.max(0, (100 - this.demandIntercept) / this.demandSlope);
+                }
+                if (startY < 0) {
+                    startY = 0;
+                    startX = Math.max(0, (0 - this.demandIntercept) / this.demandSlope);
+                }
+                
+                if (xAxisIntercept > 80 || xAxisIntercept < 0) {
+                    endX = 80;
+                    endY = this.demandIntercept + this.demandSlope * 80;
+                    endY = Math.min(100, Math.max(0, endY));
+                }
+                
+                startX = Math.max(0, Math.min(80, startX));
+                startY = Math.min(100, Math.max(0, startY));
+                endX = Math.max(0, Math.min(80, endX));
+                endY = Math.min(100, Math.max(0, endY));
+                
+                this.ctx.moveTo(this.toCanvasX(startX), this.toCanvasY(startY));
+                this.ctx.lineTo(this.toCanvasX(endX), this.toCanvasY(endY));
+                this.ctx.stroke();
+                
+                // 需求線標籤
+                this.ctx.fillStyle = '#3B82F6';
+                this.ctx.font = 'bold 16px sans-serif';
+                
+                let dX = endX + 3;
+                let dY = endY - 5;
+                
+                dX = Math.min(78, Math.max(2, dX));
+                dY = Math.min(98, Math.max(12, dY));
+                
+                this.ctx.fillText('D', this.toCanvasX(dX), this.toCanvasY(dY));
+                
+                this.ctx.lineWidth = 1;
+                this.ctx.font = '12px sans-serif';
+            }
+            
+            drawSupplyLine() {
+                // 先繪製原始供給線S1（如果選擇了從量津貼）
+                if (this.selectedUnitTax) {
+                    this.drawOriginalSupplyLine();
+                }
+                
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#EF4444';
+                this.ctx.lineWidth = 3;
+                
+                // 繪製當前供給線
+                const currentIntercept = this.selectedUnitTax ? this.supplyIntercept : this.originalSupplyIntercept;
+                
+                const yAxisIntercept = currentIntercept;
+                
+                let startX = 0;
+                let startY = yAxisIntercept;
+                let endX = 80;
+                let endY = currentIntercept + this.supplySlope * 80;
+                
+                if (startY < 0) {
+                    startY = 0;
+                    startX = Math.max(0, (0 - currentIntercept) / this.supplySlope);
+                }
+                if (startY > 100) {
+                    startY = 100;
+                    startX = Math.max(0, (100 - currentIntercept) / this.supplySlope);
+                }
+                
+                if (endY > 100) {
+                    endY = 100;
+                    endX = Math.max(0, (100 - currentIntercept) / this.supplySlope);
+                }
+                if (endY < 0) {
+                    endY = 0;
+                    endX = Math.max(0, (0 - currentIntercept) / this.supplySlope);
+                }
+                
+                startX = Math.max(0, Math.min(80, startX));
+                startY = Math.min(100, Math.max(0, startY));
+                endX = Math.max(0, Math.min(80, endX));
+                endY = Math.min(100, Math.max(0, endY));
+                
+                this.ctx.moveTo(this.toCanvasX(startX), this.toCanvasY(startY));
+                this.ctx.lineTo(this.toCanvasX(endX), this.toCanvasY(endY));
+                this.ctx.stroke();
+                
+                // 供給線標籤
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.font = 'bold 16px sans-serif';
+                
+                let sX = endX + 1;
+                let sY = endY + 5;
+                
+                sX = Math.min(78, Math.max(2, sX));
+                sY = Math.min(98, Math.max(12, sY));
+                
+                const sLabel = this.selectedUnitTax ? 'S2' : 'S1';
+                this.ctx.fillText(sLabel, this.toCanvasX(sX), this.toCanvasY(sY));
+                
+                // 繪製均衡點和箭頭
+                if (this.selectedUnitTax) {
+                    this.drawEquilibriumChanges();
+                }
+                
+                this.ctx.lineWidth = 1;
+                this.ctx.font = '12px sans-serif';
+            }
+            
+            drawOriginalSupplyLine() {
+                this.ctx.beginPath();
+                this.ctx.strokeStyle = '#EF4444';
+                this.ctx.lineWidth = 2;
+                
+                const yAxisIntercept = this.originalSupplyIntercept;
+                
+                let startX = 0;
+                let startY = yAxisIntercept;
+                let endX = 80;
+                let endY = this.originalSupplyIntercept + this.supplySlope * 80;
+                
+                if (startY < 0) {
+                    startY = 0;
+                    startX = Math.max(0, (0 - this.originalSupplyIntercept) / this.supplySlope);
+                }
+                if (startY > 100) {
+                    startY = 100;
+                    startX = Math.max(0, (100 - this.originalSupplyIntercept) / this.supplySlope);
+                }
+                
+                if (endY > 100) {
+                    endY = 100;
+                    endX = Math.max(0, (100 - this.originalSupplyIntercept) / this.supplySlope);
+                }
+                if (endY < 0) {
+                    endY = 0;
+                    endX = Math.max(0, (0 - this.originalSupplyIntercept) / this.supplySlope);
+                }
+                
+                startX = Math.max(0, Math.min(80, startX));
+                startY = Math.min(100, Math.max(0, startY));
+                endX = Math.max(0, Math.min(80, endX));
+                endY = Math.min(100, Math.max(0, endY));
+                
+                this.ctx.moveTo(this.toCanvasX(startX), this.toCanvasY(startY));
+                this.ctx.lineTo(this.toCanvasX(endX), this.toCanvasY(endY));
+                this.ctx.stroke();
+                
+                // S1標籤
+                this.ctx.fillStyle = '#EF4444';
+                this.ctx.font = 'bold 16px sans-serif';
+                let s1X = endX + 1;
+                let s1Y = endY + 5;
+                s1X = Math.min(78, Math.max(2, s1X));
+                s1Y = Math.min(98, Math.max(12, s1Y));
+                this.ctx.fillText('S1', this.toCanvasX(s1X), this.toCanvasY(s1Y));
+            }
+            
+            drawEquilibriumChanges() {
+                const arrowColor = '#F97316';
+                const arrowSize = 8;
+                
+                // 繪製均衡點
+                this.ctx.fillStyle = '#000000';
+                
+                // 原始均衡點E1
+                if (this.equilibriumP1 && this.equilibriumQ1) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(this.toCanvasX(this.equilibriumQ1), this.toCanvasY(this.equilibriumP1), 4, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    
+                    this.ctx.font = 'bold 12px sans-serif';
+                    this.ctx.fillText('E1', this.toCanvasX(this.equilibriumQ1) + 6, this.toCanvasY(this.equilibriumP1) - 6);
+                }
+                
+                // 新均衡點E2
+                if (this.equilibriumP2 && this.equilibriumQ2) {
+                    this.ctx.beginPath();
+                    this.ctx.arc(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(this.equilibriumP2), 4, 0, 2 * Math.PI);
+                    this.ctx.fill();
+                    
+                    this.ctx.fillText('E2', this.toCanvasX(this.equilibriumQ2) + 6, this.toCanvasY(this.equilibriumP2) - 6);
+                }
+                
+                // 設置橙色箭頭樣式
+                this.ctx.strokeStyle = arrowColor;
+                this.ctx.lineWidth = 3;
+                
+                // S1→S2箭頭（供給線向下移動）
+                if (this.equilibriumP1 && this.equilibriumQ1) {
+                    const s1s2ArrowX = this.toCanvasX(this.equilibriumQ1);
+                    const xPosition = this.equilibriumQ1;
+                    const s1LineY = this.originalSupplyIntercept + this.supplySlope * xPosition;
+                    const s2LineY = this.supplyIntercept + this.supplySlope * xPosition;
+                    
+                    const s1LineCanvasY = this.toCanvasY(s1LineY);
+                    const s2LineCanvasY = this.toCanvasY(s2LineY);
+                    
+                    const lineGap = 5;
+                    
+                    const s1s2StartY = s1LineCanvasY + lineGap;
+                    const s1s2EndY = s2LineCanvasY - lineGap;
+                    
+                    // 垂直箭頭線
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(s1s2ArrowX, s1s2StartY);
+                    this.ctx.lineTo(s1s2ArrowX, s1s2EndY);
+                    this.ctx.stroke();
+                    
+                    // 向下箭頭頭部
+                    this.ctx.fillStyle = arrowColor;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(s1s2ArrowX, s1s2EndY);
+                    this.ctx.lineTo(s1s2ArrowX - arrowSize/2, s1s2EndY - arrowSize);
+                    this.ctx.lineTo(s1s2ArrowX + arrowSize/2, s1s2EndY - arrowSize);
+                    this.ctx.closePath();
+                    this.ctx.fill();
+                }
+                
+                // P1→P2箭頭（價格下降）
+                if (this.equilibriumP1 && this.equilibriumP2) {
+                    const p1p2ArrowX = this.margin.left - 20;
+                    const p1p2StartY = this.toCanvasY(this.equilibriumP1);
+                    const p1p2EndY = this.toCanvasY(this.equilibriumP2);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p1p2ArrowX, p1p2StartY);
+                    this.ctx.lineTo(p1p2ArrowX, p1p2EndY);
+                    this.ctx.stroke();
+                    
+                    this.ctx.fillStyle = arrowColor;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(p1p2ArrowX, p1p2EndY);
+                    this.ctx.lineTo(p1p2ArrowX - arrowSize/2, p1p2EndY - arrowSize);
+                    this.ctx.lineTo(p1p2ArrowX + arrowSize/2, p1p2EndY - arrowSize);
+                    this.ctx.closePath();
+                    this.ctx.fill();
+                    
+                    // P1、P2、P3標註
+                    this.ctx.font = 'bold 12px sans-serif';
+                    this.ctx.textAlign = 'right';
+                    this.ctx.fillStyle = '#000000';
+                    this.ctx.fillText('P1', p1p2ArrowX - 5, p1p2StartY + 4);
+                    this.ctx.fillText('P2', p1p2ArrowX - 5, p1p2EndY + 4);
+                    
+                    const equilibriumP3 = this.originalSupplyIntercept + this.supplySlope * this.equilibriumQ2;
+                    this.ctx.fillText('P3', this.margin.left - 25, this.toCanvasY(equilibriumP3) + 4);
+                    
+                    this.ctx.textAlign = 'left';
+                }
+                
+                // Q1→Q2箭頭（數量增加）
+                if (this.equilibriumQ1 && this.equilibriumQ2) {
+                    const q1q2ArrowY = this.height - this.margin.bottom + 20;
+                    const q1q2StartX = this.toCanvasX(this.equilibriumQ1);
+                    const q1q2EndX = this.toCanvasX(this.equilibriumQ2);
+                    
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(q1q2StartX, q1q2ArrowY);
+                    this.ctx.lineTo(q1q2EndX, q1q2ArrowY);
+                    this.ctx.stroke();
+                    
+                    this.ctx.fillStyle = arrowColor;
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(q1q2EndX, q1q2ArrowY);
+                    this.ctx.lineTo(q1q2EndX - arrowSize, q1q2ArrowY - arrowSize/2);
+                    this.ctx.lineTo(q1q2EndX - arrowSize, q1q2ArrowY + arrowSize/2);
+                    this.ctx.closePath();
+                    this.ctx.fill();
+                    
+                    this.ctx.font = 'bold 12px sans-serif';
+                    this.ctx.textAlign = 'center';
+                    this.ctx.fillStyle = '#000000';
+                    this.ctx.fillText('Q1', q1q2StartX, q1q2ArrowY + 20);
+                    this.ctx.fillText('Q2', q1q2EndX, q1q2ArrowY + 20);
+                    this.ctx.textAlign = 'left';
+                }
+                
+                this.ctx.lineWidth = 1;
+                this.ctx.fillStyle = '#000000';
+            }
+            
+            drawPriceChangeIndicators() {
+                if (!this.selectedUnitTax) return;
+                
+                if (!this.equilibriumP1 || !this.equilibriumQ1 || !this.equilibriumP2 || !this.equilibriumQ2) return;
+                
+                // 繪製虛線
+                this.ctx.setLineDash([5, 5]);
+                this.ctx.strokeStyle = '#9CA3AF';
+                this.ctx.lineWidth = 2;
+                
+                // P1水平線
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(0), this.toCanvasY(this.equilibriumP1));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ1), this.toCanvasY(this.equilibriumP1));
+                this.ctx.stroke();
+                
+                // Q1垂直線
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(this.equilibriumQ1), this.toCanvasY(this.equilibriumP1));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ1), this.toCanvasY(0));
+                this.ctx.stroke();
+                
+                // P2水平線
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(0), this.toCanvasY(this.equilibriumP2));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(this.equilibriumP2));
+                this.ctx.stroke();
+                
+                // 計算並繪製P3線
+                const equilibriumP3 = this.originalSupplyIntercept + this.supplySlope * this.equilibriumQ2;
+                
+                // Q2垂直線
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(0));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(this.equilibriumP2));
+                this.ctx.stroke();
+                
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(this.equilibriumP2));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(equilibriumP3));
+                this.ctx.stroke();
+                
+                // P3水平線
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.toCanvasX(0), this.toCanvasY(equilibriumP3));
+                this.ctx.lineTo(this.toCanvasX(this.equilibriumQ2), this.toCanvasY(equilibriumP3));
+                this.ctx.stroke();
+                
+                this.ctx.setLineDash([]);
+                this.ctx.lineWidth = 1;
+            }
+            
+            roundRect(x, y, width, height, radius) {
+                this.ctx.beginPath();
+                this.ctx.moveTo(x + radius, y);
+                this.ctx.lineTo(x + width - radius, y);
+                this.ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                this.ctx.lineTo(x + width, y + height - radius);
+                this.ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                this.ctx.lineTo(x + radius, y + height);
+                this.ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                this.ctx.lineTo(x, y + radius);
+                this.ctx.quadraticCurveTo(x, y, x + radius, y);
+                this.ctx.closePath();
+            }
+            
+            setupCanvasEvents() {
+                // 鼠標事件
+                this.canvas.addEventListener('mousedown', (e) => this.handleStart(e));
+                this.canvas.addEventListener('mousemove', (e) => this.handleMove(e));
+                this.canvas.addEventListener('mouseup', (e) => this.handleEnd(e));
+                this.canvas.addEventListener('mouseleave', (e) => this.handleEnd(e));
+                
+                // 觸摸事件
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.handleStart(e.touches[0]);
+                });
+                this.canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    this.handleMove(e.touches[0]);
+                });
+                this.canvas.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    this.handleEnd(e);
+                });
+            }
+            
+            getEventPos(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                const scaleX = this.canvas.width / rect.width;
+                const scaleY = this.canvas.height / rect.height;
+                
+                return {
+                    x: (e.clientX - rect.left) * scaleX,
+                    y: (e.clientY - rect.top) * scaleY
+                };
+            }
+            
+            handleStart(e) {
+                const pos = this.getEventPos(e);
+                
+                // 檢查是否點擊在需求線附近
+                if (this.isNearDemandLine(pos.x, pos.y)) {
+                    this.isDragging = true;
+                    this.dragPoint = pos;
+                    this.canvas.style.cursor = 'grabbing';
+                    
+                    // 開始拖拽時隱藏提示框
+                    this.hideHint();
+                }
+            }
+            
+            handleMove(e) {
+                const pos = this.getEventPos(e);
+                
+                if (this.isDragging) {
+                    // 計算新的斜率
+                    this.updateDemandSlope(pos);
+                    this.drawChart();
+                } else {
+                    // 檢查是否在需求線附近，改變游標
+                    if (this.isNearDemandLine(pos.x, pos.y)) {
+                        this.canvas.style.cursor = 'grab';
+                    } else {
+                        this.canvas.style.cursor = 'default';
+                    }
+                }
+            }
+            
+            handleEnd(e) {
+                if (this.isDragging) {
+                    // 標記需求線已被修改，啟用任務4
+                    this.hasModifiedDemandLine = true;
+                    this.updateTaskAvailability();
+                }
+                this.isDragging = false;
+                this.dragPoint = null;
+                this.canvas.style.cursor = 'default';
+            }
+            
+            isNearDemandLine(canvasX, canvasY) {
+                // 轉換到經濟座標
+                const economicX = ((canvasX - this.margin.left) / this.chartWidth) * 80;
+                const economicY = ((this.height - this.margin.bottom - canvasY) / this.chartHeight) * 100;
+                
+                // 對於接近水平的線條，使用特殊檢測
+                if (Math.abs(this.demandSlope) < 0.001) {
+                    // 水平線檢測：檢查是否接近基準點的Y值
+                    const distance = Math.abs(economicY - this.basePrice);
+                    return distance < 10 && economicX >= 0 && economicX <= 80;
+                } else {
+                    // 正常線條檢測
+                    const lineY = this.demandIntercept + this.demandSlope * economicX;
+                    const distance = Math.abs(economicY - lineY);
+                    
+                    return distance < 10 && 
+                           economicX >= 0 && economicX <= 80 && 
+                           economicY >= 0 && economicY <= 100;
+                }
+            }
+            
+            updateDemandSlope(pos) {
+                // 轉換到經濟座標
+                const economicX = ((pos.x - this.margin.left) / this.chartWidth) * 80;
+                const economicY = ((this.height - this.margin.bottom - pos.y) / this.chartHeight) * 100;
+                
+                // 計算新斜率（保持通過基準點）
+                if (Math.abs(economicX - this.baseQuantity) > 0.1) {
+                    const newSlope = (economicY - this.basePrice) / (economicX - this.baseQuantity);
+                    // 限制斜率範圍：從接近水平(0度)到接近垂直(90度)
+                    this.demandSlope = Math.max(-1000, Math.min(-0.00001, newSlope));
+                    
+                    // 特殊處理：如果用戶拖拽到接近水平位置（Y值變化很小）
+                    const yDiff = Math.abs(economicY - this.basePrice);
+                    if (yDiff < 5) {
+                        this.demandSlope = -0.00001; // 強制設為接近水平
+                    }
+                    
+                    // 重新計算截距
+                    this.demandIntercept = this.basePrice - this.demandSlope * this.baseQuantity;
+                    
+                    // 重要：如果已選擇從量津貼，重新計算均衡點
+                    if (this.selectedUnitTax) {
+                        this.calculateOriginalEquilibrium();
+                        this.calculateNewEquilibrium();
+                    }
+                }
+            }
+        }
+        
+        // 練習題管理類
+        class QuizManager {
+            constructor() {
+                this.questions = {
+                    q1: { correct: 'demand_more_elastic', answered: false },
+                    q2: { correct: 'consumer_gains_more', answered: false }, // 選項A：消費者獲得較多津貼
+                    q3: { correct: 'elasticity_ratio', answered: false },
+                    q4: { correct: 'uncertain', answered: false },          // 生產者津貼前收入：不能確定
+                    q5: { correct: 'increase', answered: false },           // 生產者津貼後收入：增加
+                    q6: { correct: 'increase', answered: false },           // 高彈性需求下生產者津貼前收入：增加
+                    q7: { correct: 'increase', answered: false },           // 高彈性需求下生產者津貼後收入：增加
+                    q8: { correct: 'increase', answered: false },           // 高彈性需求下消費者總支出：增加
+                    q9: { correct: 'uncertain_ratio', answered: false }     // 高彈性需求下津貼分擔：不能確定雙方獲得比例
+                };
+                this.score = 0;
+                this.init();
+            }
+            
+            init() {
+                // 初始狀態：禁用所有練習題
+                this.initializeQuizState();
+                
+                // 為每個題目添加事件監聽器
+                Object.keys(this.questions).forEach(questionId => {
+                    const radios = document.querySelectorAll(`input[name="${questionId}"]`);
+                    radios.forEach(radio => {
+                        radio.addEventListener('change', () => {
+                            this.checkAnswer(questionId, radio.value);
+                        });
+                    });
+                });
+                
+                // 重新作答按鈕
+                document.getElementById('resetQuiz').addEventListener('click', () => {
+                    this.resetQuiz();
+                });
+            }
+            
+            initializeQuizState() {
+                const quizInputs = document.querySelectorAll('#quizSection input[type="radio"]');
+                
+                quizInputs.forEach(input => {
+                    input.disabled = true;
+                    input.parentElement.classList.add('opacity-50', 'cursor-not-allowed');
+                });
+                
+                const resetQuizBtn = document.getElementById('resetQuiz');
+                resetQuizBtn.disabled = true;
+                resetQuizBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            
+            checkAnswer(questionId, selectedValue) {
+                const question = this.questions[questionId];
+                const feedbackDiv = document.getElementById(`feedback${questionId.slice(-1)}`);
+                const isCorrect = selectedValue === question.correct;
+                
+                if (!question.answered) {
+                    question.answered = true;
+                    if (isCorrect) {
+                        this.score++;
+                    }
+                }
+                
+                feedbackDiv.classList.remove('hidden', 'bg-green-100', 'bg-red-100', 'dark:bg-green-900', 'dark:bg-red-900');
+                
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                const correctText = currentLang === 'en' ? '✓ Correct!' : '✓ 正確！';
+                const incorrectText = currentLang === 'en' ? '✗ Incorrect.' : '✗ 錯誤。';
+                
+                if (isCorrect) {
+                    feedbackDiv.classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-800', 'dark:text-green-200');
+                    feedbackDiv.innerHTML = `<strong>${correctText}</strong> ${this.getExplanation(questionId)}`;
+                } else {
+                    feedbackDiv.classList.add('bg-red-100', 'dark:bg-red-900', 'text-red-800', 'dark:text-red-200');
+                    feedbackDiv.innerHTML = `<strong>${incorrectText}</strong> ${this.getExplanation(questionId)}`;
+                }
+                
+                this.updateTotalScore();
+            }
+            
+            getExplanation(questionId) {
+                const currentLang = window.languageManager ? window.languageManager.currentLang : 'zh';
+                
+                const explanations = {
+                    zh: {
+                        q1: '當消費者獲得津貼較生產者少時，表示消費者對價格變化較敏感（需求彈性較大），而生產者較不敏感（供給彈性較小）。根據津貼分享理論，彈性較大的一方獲得較少津貼。',
+                        q2: '當需求彈性低於供給彈性時，消費者對價格變化較不敏感（需求無彈性），生產者相對更有彈性，因此消費者獲得較多津貼。津貼分享的原則是：彈性較低的一方獲得較多津貼。',
+                        q3: '津貼分享的關鍵在於雙方的價格敏感度。彈性較低的一方（較無選擇餘地）會獲得較多津貼，與津貼額度大小或政府政策無關。',
+                        q4: '津貼前收入 = 消費者支付價格 × 數量。雖然數量增加，但消費者支付的價格下降程度通常較大，因此津貼前收入會減少。',
+                        q5: '津貼後收入 = (消費者支付價格 + 津貼) × 數量。生產者實際收到的價格上升，數量也增加，因此津貼後收入必定增加。',
+                        q6: '高彈性需求下，價格下降會導致數量大幅增加。津貼前收入的變化取決於價格下降與數量增加的相對幅度，結果不能確定。',
+                        q7: '高彈性需求下，生產者津貼後收入 = (更高的實際價格) × (大幅增加的數量)，兩個因素都對收入增加有利，因此必定增加。',
+                        q8: '高彈性需求下，消費者支出 = (較低價格) × (大幅增加數量)。由於需求高彈性，數量增加幅度大於價格下降幅度，總支出會增加。',
+                        q9: '高彈性需求意味著消費者對價格敏感，因此獲得較少津貼。相對地，生產者（供給方）獲得較多津貼，這符合彈性分享原理。'
+                    },
+                    en: {
+                        q1: 'When consumers receive less subsidy than producers, it means consumers are more sensitive to price changes (higher demand elasticity) while producers are less sensitive (lower supply elasticity). According to subsidy sharing theory, the party with higher elasticity receives less subsidy.',
+                        q2: 'When demand elasticity is lower than supply elasticity, consumers are less sensitive to price changes (inelastic demand) while producers are relatively more elastic, so consumers receive more subsidy. The principle of subsidy sharing is: the party with lower elasticity receives more subsidy.',
+                        q3: 'The key to subsidy sharing lies in the price sensitivity of both parties. The party with lower elasticity (less choice flexibility) receives more subsidy, regardless of the subsidy amount or government policy.',
+                        q4: 'Pre-subsidy revenue = Consumer payment price × Quantity. Although quantity increases, the consumer payment price typically decreases more significantly, so pre-subsidy revenue decreases.',
+                        q5: 'Post-subsidy revenue = (Consumer payment price + Subsidy) × Quantity. The actual price received by producers increases, and quantity also increases, so post-subsidy revenue definitely increases.',
+                        q6: 'Under high elastic demand, price decreases lead to significant quantity increases. The change in pre-subsidy revenue depends on the relative magnitude of price decrease versus quantity increase, making the result uncertain.',
+                        q7: 'Under high elastic demand, producer post-subsidy revenue = (Higher actual price) × (Significantly increased quantity). Both factors favor revenue increase, so it definitely increases.',
+                        q8: 'Under high elastic demand, consumer expenditure = (Lower price) × (Significantly increased quantity). Due to high demand elasticity, the quantity increase exceeds the price decrease, so total expenditure increases.',
+                        q9: 'High elastic demand means consumers are price-sensitive, thus receiving less subsidy. Relatively, producers (supply side) receive more subsidy, which aligns with elasticity sharing principles.'
+                    }
+                };
+                
+                return explanations[currentLang][questionId];
+            }
+            
+            updateTotalScore() {
+                const totalQuestions = Object.keys(this.questions).length; // 總題數：9題
+                const answeredCount = Object.values(this.questions).filter(q => q.answered).length;
+                const totalScoreDiv = document.getElementById('totalScore');
+                
+                if (answeredCount === totalQuestions) {
+                    const percentage = Math.round((this.score / totalQuestions) * 100);
+                    let grade = '';
+                    let color = '';
+                    
+                    if (percentage >= 90) {
+                        grade = '優秀';
+                        color = 'text-green-600 dark:text-green-400';
+                    } else if (percentage >= 80) {
+                        grade = '良好';
+                        color = 'text-blue-600 dark:text-blue-400';
+                    } else if (percentage >= 70) {
+                        grade = '及格';
+                        color = 'text-yellow-600 dark:text-yellow-400';
+                    } else {
+                        grade = '需加強';
+                        color = 'text-red-600 dark:text-red-400';
+                    }
+                    
+                    totalScoreDiv.innerHTML = `
+                        <div class="text-xl font-bold ${color}">
+                            總分：${this.score}/${totalQuestions} (${percentage}%) - ${grade}
+                        </div>
+                    `;
+                } else {
+                    totalScoreDiv.innerHTML = `已完成 ${answeredCount}/${totalQuestions} 題，目前得分：${this.score} 分`;
+                    totalScoreDiv.className = 'text-lg font-semibold text-blue-800 dark:text-blue-200';
+                }
+            }
+            
+            resetQuiz() {
+                Object.keys(this.questions).forEach(questionId => {
+                    this.questions[questionId].answered = false;
+                    
+                    const radios = document.querySelectorAll(`input[name="${questionId}"]`);
+                    radios.forEach(radio => {
+                        radio.checked = false;
+                    });
+                    
+                    const feedbackDiv = document.getElementById(`feedback${questionId.slice(-1)}`);
+                    feedbackDiv.classList.add('hidden');
+                });
+                
+                this.score = 0;
+                
+                const totalScoreDiv = document.getElementById('totalScore');
+                totalScoreDiv.textContent = '完成所有題目後將顯示總分';
+                totalScoreDiv.className = 'text-lg font-semibold text-blue-800 dark:text-blue-200';
+            }
+        }
+        
+        // 多語言支持
+        class LanguageManager {
+            constructor() {
+                this.currentLang = 'zh';
+                this.texts = {
+                    zh: {
+                        mainTitle: '從量津貼 VS 需求彈性、供給彈性互動教學',
+                        task1Label: '任務1：從量津貼',
+                        task2Label: '任務2：需求彈性類型',
+                        task3Label: '任務3：供給彈性類型',
+                        task4Label: '任務4：拖拽到圖表',
+                        task5Label: '任務5：拖拽到圖表',
+                        task6Label: '任務6：提交',
+                        resetLabel: '重新開始',
+                        unitSubsidyText: '從量津貼',
+                        highElasticText: '高彈性',
+                        lowElasticText: '低彈性',
+                        highSupplyElasticText: '高彈性',
+                        lowSupplyElasticText: '低彈性',
+                        benefitText: '消費者獲得津貼',
+                        lossText: '生產者獲得津貼',
+                        submitBtnText: '提交答案',
+                        resetBtnText: '重新整理',
+                        
+                        // 練習題相關
+                        quizTitle: '從量津貼與彈性練習題',
+                        quizLockTitle: '🔒 練習題尚未解鎖',
+                        quizLockDesc: '請先完成以下任務才能開始練習題：',
+                        taskGroup1: '任務組合1：高彈性情境',
+                        taskGroup2: '任務組合2：低彈性情境',
+                        highElasticIncomplete: '❌ 尚未完成高彈性的完整任務流程',
+                        lowElasticIncomplete: '❌ 尚未完成低彈性的完整任務流程',
+                        highElasticComplete: '✅ 已完成高彈性的完整任務流程',
+                        lowElasticComplete: '✅ 已完成低彈性的完整任務流程',
+                        quizHint: '💡 提示：每種彈性類型都需要完成任務1-6的完整流程（選擇從量津貼→選擇彈性類型→拖拽津貼標籤→拖拽比較符號→提交答案）',
+                        
+                        // 題目標題
+                        q1Title: '題目1：津貼分擔理解',
+                        q2Title: '題目2：需求彈性與津貼分擔',
+                        q3Title: '題目3：津貼分擔決定因素',
+                        q4Title: '題目4：生產者不包括津貼的總收入',
+                        q5Title: '題目5：生產者包括津貼的總收入',
+                        q6Title: '題目6：高彈性需求下生產者不包括津貼的總收入',
+                        q7Title: '題目7：高彈性需求下生產者包括津貼的總收入',
+                        q8Title: '題目8：高彈性需求下消費者總支出',
+                        q9Title: '題目9：高彈性需求下津貼分擔',
+                        
+                        // 題目內容
+                        q1Question: '當消費者獲得津貼較生產者少時，意味著：',
+                        q2Question: '當商品需求彈性低於供給彈性時，從量津貼主要由誰獲得？',
+                        q3Question: '從量津貼的受益分擔主要取決於：',
+                        q4Question: '當政府實施從量津貼後，生產者不包括津貼的總收入會：',
+                        q5Question: '當政府實施從量津貼後，生產者包括津貼的總收入會：',
+                        q6Question: '當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，生產者不包括津貼的總收入會：',
+                        q7Question: '當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，生產者包括津貼的總收入會：',
+                        q8Question: '當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，消費者總支出會：',
+                        q9Question: '當政府對物品X實施從量津貼，而消費者對物品X需求是高彈性，消費者和生產者津貼獲得比例：',
+                        
+                        // 選項文字
+                        demandLessElastic: '需求彈性小於供給彈性（|Ed| < |Es|）',
+                        demandMoreElastic: '需求彈性大於供給彈性（|Ed| > |Es|）',
+                        elasticityEqual: '需求彈性等於供給彈性（|Ed| = |Es|）',
+                        consumerGainsMore: '消費者獲得較多津貼',
+                        producerGainsMore: '生產者獲得較多津貼',
+                        equalGain: '消費者與生產者平均分享',
+                        demandElasticityOnly: '取決於需求彈性',
+                        supplyElasticityOnly: '取決於供給彈性',
+                        elasticityRatio: '取決於需求彈性與供給彈性的相對大小',
+                        increase: '增加',
+                        decrease: '減少',
+                        uncertain: '不能確定',
+                        uncertainRatio: '不能確定雙方獲得比例',
+                        
+                        totalScoreDefault: '完成所有題目後將顯示總分',
+                        resetQuizBtn: '重新作答'
+                    },
+                    en: {
+                        mainTitle: 'Per-Unit Subsidy VS Demand & Supply Elasticity Interactive Learning',
+                        task1Label: 'Task 1: Per-Unit Subsidy',
+                        task2Label: 'Task 2: Demand Elasticity Type',
+                        task3Label: 'Task 3: Supply Elasticity Type',
+                        task4Label: 'Task 4: Drag to Chart',
+                        task5Label: 'Task 5: Drag to Chart',
+                        task6Label: 'Task 6: Submit',
+                        resetLabel: 'Reset',
+                        unitSubsidyText: 'Per-Unit Subsidy',
+                        highElasticText: 'Elastic',
+                        lowElasticText: 'Low Elastic',
+                        highSupplyElasticText: 'Elastic',
+                        lowSupplyElasticText: 'Low Elastic',
+                        benefitText: 'Consumer Gets Subsidy',
+                        lossText: 'Producer Gets Subsidy',
+                        submitBtnText: 'Submit Answer',
+                        resetBtnText: 'Reset All',
+                        
+                        // Quiz related
+                        quizTitle: 'Per-Unit Subsidy & Elasticity Practice Quiz',
+                        quizLockTitle: '🔒 Quiz Not Yet Unlocked',
+                        quizLockDesc: 'Please complete the following tasks before starting the quiz:',
+                        taskGroup1: 'Task Group 1: High Elasticity Scenario',
+                        taskGroup2: 'Task Group 2: Low Elasticity Scenario',
+                        highElasticIncomplete: '❌ High elasticity task flow not completed',
+                        lowElasticIncomplete: '❌ Low elasticity task flow not completed',
+                        highElasticComplete: '✅ High elasticity task flow completed',
+                        lowElasticComplete: '✅ Low elasticity task flow completed',
+                        quizHint: '💡 Hint: Each elasticity type requires completing the full task flow 1-6 (Select per-unit subsidy → Select elasticity type → Drag subsidy labels → Drag comparison symbols → Submit answer)',
+                        
+                        // Question titles
+                        q1Title: 'Q1: Understanding Subsidy Distribution',
+                        q2Title: 'Q2: Demand Elasticity & Subsidy Distribution',
+                        q3Title: 'Q3: Factors Determining Subsidy Distribution',
+                        q4Title: 'Q4: Producer Total Revenue Excluding Subsidy',
+                        q5Title: 'Q5: Producer Total Revenue Including Subsidy',
+                        q6Title: 'Q6: Producer Revenue Excluding Subsidy Under Elastic Demand',
+                        q7Title: 'Q7: Producer Revenue Including Subsidy Under Elastic Demand',
+                        q8Title: 'Q8: Consumer Total Expenditure Under Elastic Demand',
+                        q9Title: 'Q9: Subsidy Distribution Under High Elastic Demand',
+                        
+                        // Question content
+                        q1Question: 'When consumers receive less subsidy than producers, it means:',
+                        q2Question: 'When demand elasticity is lower than supply elasticity, who mainly benefits from the per-unit subsidy?',
+                        q3Question: 'The distribution of per-unit subsidy benefits mainly depends on:',
+                        q4Question: 'When the government implements a per-unit subsidy, producer total revenue excluding subsidy will:',
+                        q5Question: 'When the government implements a per-unit subsidy, producer total revenue including subsidy will:',
+                        q6Question: 'When the government implements a per-unit subsidy on good X with elastic demand, producer total revenue excluding subsidy will:',
+                        q7Question: 'When the government implements a per-unit subsidy on good X with elastic demand, producer total revenue including subsidy will:',
+                        q8Question: 'When the government implements a per-unit subsidy on good X with elastic demand, consumer total expenditure will:',
+                        q9Question: 'When the government implements a per-unit subsidy on good X with elastic demand, the subsidy distribution ratio between consumers and producers:',
+                        
+                        // Option texts
+                        demandLessElastic: 'Demand elasticity < Supply elasticity (|Ed| < |Es|)',
+                        demandMoreElastic: 'Demand elasticity > Supply elasticity (|Ed| > |Es|)',
+                        elasticityEqual: 'Demand elasticity = Supply elasticity (|Ed| = |Es|)',
+                        consumerGainsMore: 'Consumers receive more subsidy',
+                        producerGainsMore: 'Producers receive more subsidy',
+                        equalGain: 'Consumers and producers share equally',
+                        demandElasticityOnly: 'Depends on demand elasticity',
+                        supplyElasticityOnly: 'Depends on supply elasticity',
+                        elasticityRatio: 'Depends on relative size of demand and supply elasticity',
+                        increase: 'Increase',
+                        decrease: 'Decrease',
+                        uncertain: 'Be uncertain',
+                        uncertainRatio: 'Cannot determine the ratio',
+                        
+                        totalScoreDefault: 'Total score will be displayed after completing all questions',
+                        resetQuizBtn: 'Reset Quiz'
+                    }
+                };
+                this.init();
+            }
+            
+            init() {
+                // 語言切換按鈕事件
+                document.getElementById('langZh').addEventListener('click', () => {
+                    this.switchLanguage('zh');
+                });
+                
+                document.getElementById('langEn').addEventListener('click', () => {
+                    this.switchLanguage('en');
+                });
+                
+                // 初始化為中文
+                this.updateUI();
+            }
+            
+            switchLanguage(lang) {
+                this.currentLang = lang;
+                this.updateButtonStates();
+                this.updateUI();
+            }
+            
+            updateButtonStates() {
+                const zhBtn = document.getElementById('langZh');
+                const enBtn = document.getElementById('langEn');
+                
+                // 重置按鈕樣式
+                zhBtn.classList.remove('bg-primary', 'text-white');
+                zhBtn.classList.add('text-gray-600', 'dark:text-gray-400');
+                enBtn.classList.remove('bg-primary', 'text-white');
+                enBtn.classList.add('text-gray-600', 'dark:text-gray-400');
+                
+                // 設置當前語言按鈕為活躍狀態
+                if (this.currentLang === 'zh') {
+                    zhBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    zhBtn.classList.add('bg-primary', 'text-white');
+                } else {
+                    enBtn.classList.remove('text-gray-600', 'dark:text-gray-400');
+                    enBtn.classList.add('bg-primary', 'text-white');
+                }
+            }
+            
+            updateUI() {
+                const texts = this.texts[this.currentLang];
+                
+                // 更新所有文本元素
+                Object.keys(texts).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        element.textContent = texts[key];
+                    }
+                });
+                
+                // 更新練習題內容
+                this.updateQuizContent();
+            }
+            
+            updateQuizContent() {
+                const texts = this.texts[this.currentLang];
+                
+                // 更新題目選項
+                const questions = {
+                    q1: [
+                        { value: 'demand_less_elastic', text: texts.demandLessElastic },
+                        { value: 'demand_more_elastic', text: texts.demandMoreElastic },
+                        { value: 'elasticity_equal', text: texts.elasticityEqual }
+                    ],
+                    q2: [
+                        { value: 'consumer_gains_more', text: texts.consumerGainsMore },
+                        { value: 'producer_gains_more', text: texts.producerGainsMore },
+                        { value: 'equal_gain', text: texts.equalGain }
+                    ],
+                    q3: [
+                        { value: 'demand_elasticity_only', text: texts.demandElasticityOnly },
+                        { value: 'supply_elasticity_only', text: texts.supplyElasticityOnly },
+                        { value: 'elasticity_ratio', text: texts.elasticityRatio }
+                    ],
+                    q4: [
+                        { value: 'increase', text: texts.increase },
+                        { value: 'decrease', text: texts.decrease },
+                        { value: 'uncertain', text: texts.uncertain }
+                    ],
+                    q5: [
+                        { value: 'increase', text: texts.increase },
+                        { value: 'decrease', text: texts.decrease },
+                        { value: 'uncertain', text: texts.uncertain }
+                    ],
+                    q6: [
+                        { value: 'increase', text: texts.increase },
+                        { value: 'decrease', text: texts.decrease },
+                        { value: 'uncertain', text: texts.uncertain }
+                    ],
+                    q7: [
+                        { value: 'increase', text: texts.increase },
+                        { value: 'decrease', text: texts.decrease },
+                        { value: 'uncertain', text: texts.uncertain }
+                    ],
+                    q8: [
+                        { value: 'increase', text: texts.increase },
+                        { value: 'decrease', text: texts.decrease },
+                        { value: 'uncertain', text: texts.uncertain }
+                    ],
+                    q9: [
+                        { value: 'consumer_gains_more', text: texts.consumerGainsMore },
+                        { value: 'producer_gains_more', text: texts.producerGainsMore },
+                        { value: 'uncertain_ratio', text: texts.uncertainRatio }
+                    ]
+                };
+                
+                // 更新每個題目的選項文字
+                Object.keys(questions).forEach(questionId => {
+                    const options = questions[questionId];
+                    const radios = document.querySelectorAll(`input[name="${questionId}"]`);
+                    
+                    radios.forEach((radio, index) => {
+                        const label = radio.parentElement;
+                        const span = label.querySelector('span');
+                        if (span && options[index]) {
+                            span.textContent = options[index].text;
+                        }
+                    });
+                });
+            }
+        }
+        
+        // 初始化應用程式
+        window.addEventListener('load', () => {
+            window.simulator = new ElasticitySimulator('economicChart');
+            window.languageManager = new LanguageManager();
+            new QuizManager();
+        });
+    </script>
+</body>
+</html>
